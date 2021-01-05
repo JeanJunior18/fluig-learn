@@ -1,0 +1,168 @@
+<html>
+
+<head>
+	<link type="text/css" rel="stylesheet" href="/style-guide/css/fluig-style-guide.min.css" />
+	<script type="text/javascript" src="/portal/resources/js/jquery/jquery.js"></script>
+	<script type="text/javascript" src="/portal/resources/js/jquery/jquery-ui.min.js"></script>
+	<script type="text/javascript" src="/portal/resources/js/mustache/mustache-min.js"></script>
+	<script type="text/javascript" src="/style-guide/js/fluig-style-guide.min.js" charset="utf-8"></script>
+</head>
+
+<body>
+	<div class="fluig-style-guide">
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<h3 class="panel-title">Registro de Pontos de Venda</h3>
+			</div>
+			<div class="panel-body">
+				<form name="form" role="form">
+					<div class="row">
+						<div class="form-group col-md-4">
+							<label for="nome">i18n.translate("nome") </label>
+							<input type="text" name="nome" id="nome" class="form-control">
+						</div>
+
+						<div class="form-group col-md-4">
+							<label for="email">i18n.translate("email") </label>
+							<input type="text" name="email" id="email" class="form-control">
+						</div>
+
+						<div class="form-group col-md-2">
+							<label for="telefone">i18n.translate("telefone")</label>
+							<input type="text" name="telefone" id="telefone" class="form-control">
+						</div>
+					</div>
+
+					<div class="row">
+						<div class="form-group col-md-6">
+							<label for="documentoIdentidade">i18n.translate("rg")</label>
+							<input type="text" name="documentoIdentidade" id="documentoIdentidade" class="form-control">
+						</div>
+
+						<div class="form-group col-md-6">
+							<label for="dataNascimento">i18n.translate("dataNascimento")</label>
+							<input type="text" name="dataNascimento" id="dataNascimento" class="form-control">
+						</div>
+					</div>
+
+					<div class="row">
+						<div class="form-group col-md-4">
+							<label for="tipoPonto">i18n.translate("tipoPonto")</label>
+							<div class="radio">
+								<label> <input type="radio" name="tipoPonto" id="tipoPonto" value="quiosque"> Quiosque
+								</label>
+								<label> <input type="radio" name="tipoPonto" id="tipoPonto" value="loja"> Loja </label>
+							</div>
+						</div>
+
+						<div class="form-group col-md-8">
+							<label for="diasFuncionamento">i18n.translate("diaFuncionamento")</label>
+							<div class="checkbox">
+								<label> <input type="checkbox" name="domingo" id="domingo"> Dom </label>
+								<label> <input type="checkbox" name="segunda" id="segunda"> Seg </label>
+								<label> <input type="checkbox" name="terca" id="terca"> Ter </label>
+								<label> <input type="checkbox" name="quarta" id="quarta"> Qua </label>
+								<label> <input type="checkbox" name="quinta" id="quinta"> Qui </label>
+								<label> <input type="checkbox" name="sexta" id="sexta"> Sex </label>
+								<label> <input type="checkbox" name="sabado" id="sabado"> Sab </label>
+							</div>
+						</div>
+					</div>
+
+					<div class="row">
+						<div class="form-group col-md-2">
+							<label for="cep">CEP</label>
+							<input type="text" name="cep" id="cep" class="form-control" mask="00000-000">
+						</div>
+
+						<div class="form-group col-md-3">
+							<label for="logradouro">Logradouro</label>
+							<input type="text" name="logradouro" id="logradouro" class="form-control">
+						</div>
+
+						<div class="form-group col-md-1">
+							<label for="numero">Número</label>
+							<input type="numero" name="numero" id="numero" class="form-control">
+						</div>
+
+						<div class="form-group col-md-2">
+							<label for="bairro">Bairro</label>
+							<input type="bairro" name="bairro" id="bairro" class="form-control">
+						</div>
+
+						<div class="form-group col-md-3">
+							<label for="cidade">Cidade</label>
+							<input type="cidade" name="cidade" id="cidade" class="form-control">
+						</div>
+
+						<div class="form-group col-md-1">
+							<label for="estado">Estado</label>
+							<input type="estado" name="estado" id="estado" class="form-control">
+						</div>
+					</div>
+
+					<div class="row">
+						<div class="col-md-12">
+							<table tablename="responsaveisTabela" class="table table-hover">
+								<thead>
+									<tr>
+										<th>Stackholder</th>
+									</tr>
+								</thead>
+			
+								<tbody>
+									<tr>
+										<td>
+											<input 
+											type="zoom" 
+											id="stackholder" 
+											name="stackholder" 
+											data-zoom="{
+												'displayKey':'colleagueName',
+												'datasetId':'colleague',
+												
+												'placeholder':'Escolha o usuário',
+												'fields':[
+													{
+													'field':'colleagueId',
+													'label':'ID'
+													},{
+													'field':'colleagueName',
+													'label':'Nome',
+													'standard':'true'
+													},{
+													'field':'login',
+													'label':'Login'
+													}
+												]
+											}" 
+										/>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+
+	<script>
+		var dataNascimento = FLUIGC.calendar('#dataNascimento');
+
+		$('#cep').blur(function () {
+			var cep = $('#cep').val()
+
+			$.getJSON("https://viacep.com.br/ws/" + cep + "/json/", function (dados) {
+				console.log(dados)
+				$('#logradouro').val(dados.logradouro)
+				$('#cidade').val(dados.localidade)
+				$('#estado').val(dados.uf)
+				$('#bairro').val(dados.bairro)
+			})
+		})
+	</script>
+</body>
+
+</html>
